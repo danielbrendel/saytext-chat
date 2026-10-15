@@ -122,10 +122,16 @@ Furthermore, the following API endpoints are available
 
 ```
 # Fetch server status information
-ANY /api/status
+POST /api/status
 
 # Check if a username is available
-ANY /api/checkname
+POST /api/checkname?username=your-name-here
+```
+
+If you want to add your server to a global server list, and you have set `APP_SERVERLISTHOST`, then you also need to set up a cronjob to perform a request to the following endpoint. It is advised to perform this request every five minutes.
+
+```
+POST /api/serverlist
 ```
 
 ## Available settings
@@ -140,6 +146,8 @@ This section covers all available app settings with default values.
 | APP_DELAY_FETCH  | Duration in milliseconds when to check for new chat content  | 10000 |
 | APP_DELAY_ONLINE  | Duration in milliseconds when to check for amount of people online  | 10000 |
 | APP_RESOURCEHOST  | Set the resource provider URL for docker deployment  | "https://resources.saytextchat.com" |
+| APP_SERVERLISTHOST | Set this if you want your server to be added to a global list | "https://www.saytextchat.com" |
+| APP_TOKENFILTERS | Set regular expressions to be added to the filter table (docker only) | "" |
 | APP_DEBUG  | Enable or disable app debug mode  | true |
 | APP_UPDATEDEPS  | Set to true if composer packages shall be updated upon container start  | false |
 | APP_TIMEZONE  | Set your prefered time zone  | UTC |

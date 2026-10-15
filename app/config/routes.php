@@ -23,7 +23,8 @@ return [
     array('/chat/users', 'ANY', 'chat@users'),
     array('/chat/clear', 'POST', 'chat@clear'),
     array('/chat/checkname', 'ANY', 'chat@checkname'),
-    array('/api/status', 'ANY', 'api@status'),
-    array('/api/checkname', 'ANY', 'api@checkname'),
+    array('/api/status', 'POST', 'api@status'),
+    array('/api/checkname', 'POST', 'api@checkname'),
+    array('/api/serverlist', 'POST', 'api@serverlist'),
     array('$404', 'ANY', 'error404@index')
 ];

@@ -10,6 +10,8 @@ DEFAULT_APP_SERVERPREVIEW=""
 DEFAULT_APP_DELAY_FETCH=10000
 DEFAULT_APP_DELAY_ONLINE=10000
 DEFAULT_APP_RESOURCEHOST=""
+DEFAULT_APP_SERVERLISTHOST=""
+DEFAULT_APP_TOKENFILTERS=""
 DEFAULT_LOG_ENABLE=true
 
 # Use environment variables if provided, otherwise use defaults
@@ -22,6 +24,8 @@ APP_SERVERPREVIEW="${APP_SERVERPREVIEW:-$DEFAULT_APP_SERVERPREVIEW}"
 APP_DELAY_FETCH=${APP_DELAY_FETCH:-$DEFAULT_APP_DELAY_FETCH}
 APP_DELAY_ONLINE=${APP_DELAY_ONLINE:-$DEFAULT_APP_DELAY_ONLINE}
 APP_RESOURCEHOST="${APP_RESOURCEHOST:-$DEFAULT_APP_RESOURCEHOST}"
+APP_SERVERLISTHOST="${APP_SERVERLISTHOST:-$DEFAULT_APP_SERVERLISTHOST}"
+APP_TOKENFILTERS="""${APP_TOKENFILTERS:-$DEFAULT_APP_TOKENFILTERS}"
 LOG_ENABLE=${LOG_ENABLE:-$DEFAULT_LOG_ENABLE}
 
 # Function to set the desired timezone
@@ -64,6 +68,7 @@ create_environment_file() {
     APP_DELAY_FETCH=$APP_DELAY_FETCH
     APP_DELAY_ONLINE=$APP_DELAY_ONLINE
     APP_RESOURCEHOST="$APP_RESOURCEHOST"
+    APP_SERVERLISTHOST="$APP_SERVERLISTHOST"
 
     # Session
     SESSION_ENABLE=true
@@ -133,6 +138,19 @@ download_assets() {
     fi
 }
 
+add_filter_tokens() {
+    while IFS= read -r line; do
+  
+    if [ -z "$line" ]; then
+        continue
+    fi
+
+    mysql -u "$DB_USERNAME" -p"$DB_PASSWORD" -h "$DB_HOST" -P "$DB_PORT" -D "$DB_DATABASE" -N -s -e "INSERT INTO Filter (expression, type) VALUES ('$line', 'username');" > /dev/null 2>&1
+    mysql -u "$DB_USERNAME" -p"$DB_PASSWORD" -h "$DB_HOST" -P "$DB_PORT" -D "$DB_DATABASE" -N -s -e "INSERT INTO Filter (expression, type) VALUES ('$line', 'message');" > /dev/null 2>&1
+
+    done <<< "$APP_TOKENFILTERS"
+}
+
 # Configure timezone
 configure_timezone
 
@@ -161,6 +179,9 @@ fi
 
 # Run database migrations
 php asatru migrate:fresh
+
+# Add filter tokens to table
+add_filter_tokens
 
 # Set permissions to folder for logs
 chown -R www-data:www-data /var/www/html/app/logs

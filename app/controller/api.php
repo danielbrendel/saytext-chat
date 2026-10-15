@@ -33,27 +33,7 @@ class ApiController extends BaseController {
 	{
 		try {
             $data = Cache::remember('api.status', 300, function() {
-                $data = [];
-
-                $data['sv_name'] = env('APP_SERVERNAME');
-                $data['sv_timezone'] = env('APP_TIMEZONE');
-                $data['sv_debug'] = env('APP_DEBUG');
-
-                $data['sv_topic'] = BBCode::trio(env('APP_SERVERTOPIC'));
-
-                $preview = env('APP_SERVERPREVIEW', '');
-                if ((!empty($preview)) && (is_file(public_path() . '/img/' . $preview))) {
-                    $data['sv_preview'] = asset('img/' . env('APP_SERVERPREVIEW', ''));
-                } else {
-                    $data['sv_preview'] = null;
-                }
-
-                $data['users'] = [
-                    'count' => Activity::online(),
-                    'users' => Activity::users()
-                ];
-
-                return json_encode($data);
+                return json_encode(Utils::getServerInfo());
             });
 
             return json([
@@ -87,6 +67,44 @@ class ApiController extends BaseController {
                     'username' => $username,
                     'status' => $status
                 ]
+            ]);
+        } catch (\Exception $e) {
+            return json([
+                'code' => 500,
+                'msg' => $e->getMessage()
+            ]);
+        }
+	}
+
+    /**
+	 * Handles URL: /api/serverlist
+	 * 
+	 * @param Asatru\Controller\ControllerArg $request
+	 * @return Asatru\View\JsonHandler
+	 */
+	public function serverlist($request)
+	{
+		try {
+            $serverlisthost = env('APP_SERVERLISTHOST');
+
+            if ((!is_string($serverlisthost)) || (empty($serverlisthost))) {
+                throw new \Exception('Invalid host specified: ' . print_r($serverlisthost, true));
+            }
+
+            $data = Utils::getServerInfo();
+
+            $response = Utils::remoteRequest($serverlisthost . '/api/serverlist/add', [
+                'post' => [
+                    'data' => json_encode($data)
+                ]
+            ]);
+
+            if ($response['info']['http_code'] !== 200) {
+                throw new \Exception('Remote host returned error ' . strval($response['info']['http_code']));
+            }
+            
+            return json([
+                'code' => 200
             ]);
         } catch (\Exception $e) {
             return json([

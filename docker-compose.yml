@@ -17,6 +17,8 @@ services:
       APP_DELAY_FETCH: 10000
       APP_DELAY_ONLINE: 10000
       APP_RESOURCEHOST: "https://resources.saytextchat.com"
+      APP_SERVERLISTHOST: "https://www.saytextchat.com"
+      APP_TOKENFILTERS: ""
       APP_TIMEZONE: "UTC"
       LOG_ENABLE: 1
       DB_HOST: db
