@@ -1,6 +1,6 @@
 <div class="headline">
 	<div>{{ env('APP_SERVERNAME', 'Unnamed server') }}</div>
-	<div>{!! env('APP_SERVERTOPIC', 'No server topic set') !!}</div>
+	<div>{!! BBCode::transform(env('APP_SERVERTOPIC', 'No server topic set')) !!}</div>
 </div>
 
 <div class="container">

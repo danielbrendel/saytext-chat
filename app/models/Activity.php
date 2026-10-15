@@ -56,7 +56,10 @@ class Activity extends \Asatru\Database\Model {
             foreach ($tokens as $token) {
                 $chat = Chat::raw('SELECT * FROM `Chat` WHERE token = ? ORDER BY id DESC LIMIT 1', [$token->get('token')])->first();
                 if ($chat) {
-                    $result[] = $chat->get('username');
+                    $result[] = [
+                        'name' => $chat->get('username'),
+                        'team' => $chat->get('team')
+                    ];
                 }
             }
 

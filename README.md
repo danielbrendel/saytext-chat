@@ -26,6 +26,7 @@
 - [Commands](#commands)
 - [Installation](#installation)
 - [Available settings](#available-settings)
+- [Available BBCodes](#available-bbcodes)
 - [License](#license)
 - [Disclaimer](#disclaimer)
 
@@ -117,6 +118,16 @@ You should also set up a cronjob that performs a request on the following endpoi
 POST /chat/clear
 ```
 
+Furthermore, the following API endpoints are available
+
+```
+# Fetch server status information
+ANY /api/status
+
+# Check if a username is available
+ANY /api/checkname
+```
+
 ## Available settings
 
 This section covers all available app settings with default values.
@@ -133,6 +144,19 @@ This section covers all available app settings with default values.
 | APP_UPDATEDEPS  | Set to true if composer packages shall be updated upon container start  | false |
 | APP_TIMEZONE  | Set your prefered time zone  | UTC |
 | LOG_ENABLE  | Whether app logging shall be enabled or not  | true |
+
+## Available BBCodes
+
+You can specify the following BBCodes for the server topic
+
+| Name  | Description | Example |
+| ------------- | ------------- | ----- |
+| Bold | Make an expression appear bold  | [b]This text is bold[/b] |
+| Italic | Make an expression appear italic  | [i]This text is italic[/i] |
+| Underline | Make an expression appear underlined  | [u]This text is underlined[/u] |
+| Strikethrough | Make an expression appear striked-through  | [s]This text is striked-through[/s] |
+| Color (hex) | Colorize an expression using hex codes  | [color=#00f203]This text is colored[/color] |
+| Color (RGB) | Colorize an expression using RGB values  | [color=rgb(100, 50, 230)]This text is colored[/color] |
 
 ## License
 

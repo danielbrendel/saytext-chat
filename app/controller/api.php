@@ -36,9 +36,10 @@ class ApiController extends BaseController {
                 $data = [];
 
                 $data['sv_name'] = env('APP_SERVERNAME');
-                $data['sv_topic'] = env('APP_SERVERTOPIC');
                 $data['sv_timezone'] = env('APP_TIMEZONE');
                 $data['sv_debug'] = env('APP_DEBUG');
+
+                $data['sv_topic'] = BBCode::trio(env('APP_SERVERTOPIC'));
 
                 $preview = env('APP_SERVERPREVIEW', '');
                 if ((!empty($preview)) && (is_file(public_path() . '/img/' . $preview))) {

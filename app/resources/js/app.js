@@ -268,7 +268,16 @@ window.onlineUsers = function() {
                 elem.innerHTML = '';
 
                 for (let i = 0; i < response.users.length; i++) {
-                    elem.innerHTML += `<div class="saytext-chat-list-item">${response.users[i]}</div>`;
+                    let color = '#ffd000';
+                    if (response.users[i].team == 'spec') {
+                        color = '#ffffff';
+                    } else if (response.users[i].team == 'ct') {
+                        color = '#95c8ff';
+                    } else if (response.users[i].team == 't') {
+                        color = '#df4c4c';
+                    }
+
+                    elem.innerHTML += `<div class="saytext-chat-list-item"><span style="color: ${color};">${response.users[i].name}</span></div>`;
                 }
             }
         } else {

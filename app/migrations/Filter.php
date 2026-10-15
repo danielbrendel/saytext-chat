@@ -1,12 +1,5 @@
 <?php
 
-/*
-    Asatru PHP - Migration for Filter
-*/
-
-/**
- * This class specifies a migration
- */
 class Filter_Migration {
     private $database = null;
     private $connection = null;

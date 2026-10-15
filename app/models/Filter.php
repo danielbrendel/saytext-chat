@@ -1,12 +1,5 @@
 <?php
 
-/*
-    Asatru PHP - Model
-*/
-
-/**
- * This class extends the base model class and represents your associated table
- */ 
 class Filter extends \Asatru\Database\Model {
     /**
      * @param $expression
