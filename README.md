@@ -46,7 +46,9 @@ SayText Chat is a simple self-hostable retro chat app that revives the feeling o
 - Toggle sound
 - Switch backgrounds
 - API endpoint
+- Serverlist adding
 - Responsive design
+- Progressive Web App
 - Basic docker setup
 
 ## Commands
@@ -148,6 +150,7 @@ This section covers all available app settings with default values.
 | APP_RESOURCEHOST  | Set the resource provider URL for docker deployment  | "https://resources.saytextchat.com" |
 | APP_SERVERLISTHOST | Set this if you want your server to be added to a global list | "https://www.saytextchat.com" |
 | APP_TOKENFILTERS | Set regular expressions to be added to the filter table (docker only) | "" |
+| APP_ENABLEPWA | Specify whether PWA feature shall be enabled or not | false |
 | APP_DEBUG  | Enable or disable app debug mode  | true |
 | APP_UPDATEDEPS  | Set to true if composer packages shall be updated upon container start  | false |
 | APP_TIMEZONE  | Set your prefered time zone  | UTC |

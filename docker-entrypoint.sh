@@ -12,6 +12,7 @@ DEFAULT_APP_DELAY_ONLINE=10000
 DEFAULT_APP_RESOURCEHOST=""
 DEFAULT_APP_SERVERLISTHOST=""
 DEFAULT_APP_TOKENFILTERS=""
+DEFAULT_APP_ENABLEPWA=false
 DEFAULT_LOG_ENABLE=true
 
 # Use environment variables if provided, otherwise use defaults
@@ -26,6 +27,7 @@ APP_DELAY_ONLINE=${APP_DELAY_ONLINE:-$DEFAULT_APP_DELAY_ONLINE}
 APP_RESOURCEHOST="${APP_RESOURCEHOST:-$DEFAULT_APP_RESOURCEHOST}"
 APP_SERVERLISTHOST="${APP_SERVERLISTHOST:-$DEFAULT_APP_SERVERLISTHOST}"
 APP_TOKENFILTERS="""${APP_TOKENFILTERS:-$DEFAULT_APP_TOKENFILTERS}"
+APP_ENABLEPWA=${APP_ENABLEPWA:-$DEFAULT_APP_ENABLEPWA}
 LOG_ENABLE=${LOG_ENABLE:-$DEFAULT_LOG_ENABLE}
 
 # Function to set the desired timezone
@@ -69,6 +71,7 @@ create_environment_file() {
     APP_DELAY_ONLINE=$APP_DELAY_ONLINE
     APP_RESOURCEHOST="$APP_RESOURCEHOST"
     APP_SERVERLISTHOST="$APP_SERVERLISTHOST"
+    APP_ENABLEPWA=$APP_ENABLEPWA
 
     # Session
     SESSION_ENABLE=true
@@ -151,6 +154,12 @@ add_filter_tokens() {
     done <<< "$APP_TOKENFILTERS"
 }
 
+write_manifest_file() {
+    if [ "$APP_ENABLEPWA" = true ]; then
+        php asatru manifest:create
+    fi
+}
+
 # Configure timezone
 configure_timezone
 
@@ -182,6 +191,9 @@ php asatru migrate:fresh
 
 # Add filter tokens to table
 add_filter_tokens
+
+# Write manifest file if PWA is enabled
+write_manifest_file
 
 # Set permissions to folder for logs
 chown -R www-data:www-data /var/www/html/app/logs

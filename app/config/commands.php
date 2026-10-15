@@ -14,5 +14,5 @@
 */
 
 return [
-    array('test:cmd', 'Add your description here', 'TestCommand'),
+    array('manifest:create', 'Create PWA manifest file', 'ManifestCommand'),
 ];
