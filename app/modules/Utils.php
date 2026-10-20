@@ -10,6 +10,7 @@ class Utils {
         try {
             $data = [];
 
+            $data['sv_host'] = url();
             $data['sv_name'] = env('APP_SERVERNAME');
             $data['sv_timezone'] = env('APP_TIMEZONE');
             $data['sv_debug'] = env('APP_DEBUG');

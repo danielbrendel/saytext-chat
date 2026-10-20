@@ -40,6 +40,7 @@ SayText Chat is a simple self-hostable retro chat app that revives the feeling o
 - Send radio commands
 - Send speech commands
 - Send leetspeak text
+- Mention users via `@` prefix
 - Switch teams (CT, T, SPEC)
 - View online count
 - View online users

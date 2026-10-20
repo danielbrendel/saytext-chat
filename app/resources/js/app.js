@@ -177,12 +177,24 @@ window.addChatMessage = function(user, message, team, style) {
         }
     }
 
+    let highlight = false;
+    let mentions = message.content.match(/@\w+/g);
+    if ((Array.isArray(mentions)) && (mentions.length > 0)) {
+        const selfName = (window.currentUsername?.toLowerCase() ?? '');
+        highlight = (mentions.map(v => v.toLowerCase()).includes('@' + selfName)) && (user.toLowerCase() !== selfName);
+    }
+
     let msg = document.createElement('div');
     msg.classList.add(style);
+    if (highlight) msg.classList.add('chat-style-highlight');
     msg.innerText = ((window.showTimestamps) ? '[' + message.date + ']' : '') + '[' + team.toUpperCase() + '] ' + user + ': ' + message.content;
     chat.appendChild(msg);
 
     chat.scrollTop = chat.scrollHeight;
+
+    if (highlight) {
+        window.playAudio('notification.wav');
+    }
 };
 
 window.addNoticeMessage = function(message, style = 'chat-style-notice') {
@@ -277,7 +289,9 @@ window.onlineUsers = function() {
                         color = '#df4c4c';
                     }
 
-                    elem.innerHTML += `<div class="saytext-chat-list-item"><span style="color: ${color};">${response.users[i].name}</span></div>`;
+                    let weight = (response.users[i].name.toLowerCase() === window.chatterName.toLowerCase()) ? 'bold' : 'inherit';
+
+                    elem.innerHTML += `<div class="saytext-chat-list-item"><span style="color: ${color}; font-weight: ${weight};">${response.users[i].name}</span></div>`;
                 }
             }
         } else {

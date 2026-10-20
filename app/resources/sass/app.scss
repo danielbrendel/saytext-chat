@@ -155,6 +155,13 @@ body {
     color: #ffd000;
 }
 
+.chat-style-highlight {
+    font-weight: bold;
+    font-style: italic;
+    background-color: rgba(105, 105, 59, 0.8);
+    border-radius: 2px;
+}
+
 .saytext-chat-actions {
     position: absolute;
     bottom: 0;
